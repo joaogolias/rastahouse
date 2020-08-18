@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import './home.dart';
+import './login.dart';
 
 class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const timeout = const Duration(seconds: 3);
-    const ms = const Duration(milliseconds: 1);
 
     void handleTimeout() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomePage(title: "Teste")));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginPage()),
+          (Route<dynamic> route) => false);
     }
 
     new Timer(timeout, handleTimeout);
@@ -21,7 +22,7 @@ class SplashPage extends StatelessWidget {
       color: Colors.white,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(
-          "Testeeeer",
+          "Rastahouse",
           style: Theme.of(context).textTheme.headline4,
         )
       ]),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/taskWeek.dart';
+import "./tasks.dart";
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -21,7 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<TaskWeek> taskWeeks = [
-    TaskWeek(DateTime.utc(2020, 08, 13), DateTime.utc(2020, 08, 29)),
+    TaskWeek(DateTime.utc(2020, 08, 23), DateTime.utc(2020, 08, 29)),
     TaskWeek(DateTime.utc(2020, 08, 16), DateTime.utc(2020, 08, 22)),
     TaskWeek(DateTime.utc(2021, 08, 9), DateTime.utc(2020, 08, 15)),
   ];
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Center(
-                child: Text('${e.startTimeString} - ${e.endTimeString}')),
+                child: Text('r${e.startTimeString} - ${e.endTimeString}')),
           ));
     }).toList();
   }
@@ -48,27 +49,37 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+        ),
       ),
       body: ListView.builder(
         itemCount: taskWeeks.length,
         itemBuilder: (context, index) {
           TaskWeek item = taskWeeks[index];
-          return Container(
-              margin: new EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              width: MediaQuery.of(context).size.width * 0.75,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1,
+          return GestureDetector(
+            child: Container(
+                margin: new EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                width: MediaQuery.of(context).size.width * 0.75,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Center(
-                    child: Text(
-                        '${item.startTimeString} - ${item.endTimeString}')),
-              ));
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                      child: Text(
+                          '${item.startTimeString} - ${item.endTimeString}')),
+                )),
+            onTap: () => {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TasksPage(
+                        taskWeek: item,
+                      )))
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

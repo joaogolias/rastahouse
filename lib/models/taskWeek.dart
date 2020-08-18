@@ -1,10 +1,8 @@
 import 'package:intl/intl.dart';
 
 class TaskWeek {
-  TaskWeek(DateTime startTime, DateTime endTime) {
-    this.startTime = startTime;
-    this.endTime = endTime;
-  }
+  TaskWeek(this.startTime, this.endTime);
+
   DateTime startTime;
   DateTime endTime;
 
@@ -16,5 +14,9 @@ class TaskWeek {
   String get endTimeString {
     DateFormat formatter = DateFormat('dd/MM/yyyy');
     return formatter.format(this.endTime);
+  }
+
+  String get duration {
+    return '$startTimeString - $endTimeString';
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_nicknameController.text.isEmpty) {
       return 'Coloque seu nickname';
     }
-    return null;
+    return "";
   }
 
   String passwordValidator() {
@@ -36,18 +37,21 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_passwordController.text.length < 6) {
       return 'A senha deve conter, no mínimo, 6 caracteres';
     }
-    return null;
+    return "";
   }
 
   bool validate() {
     String nicknameError = nicknameValidator();
     String passwordError = passwordValidator();
-    setState(() {
-      _nicknameError = nicknameError;
-      _passwordError = passwordError;
-    });
+    if (nicknameError.isNotEmpty && passwordError.isNotEmpty) {
+      setState(() {
+        _nicknameError = nicknameError;
+        _passwordError = passwordError;
+      });
+      return false;
+    }
 
-    return nicknameError.isNotEmpty && passwordError.isNotEmpty;
+    return true;
   }
 
   void onLoginClick() {
@@ -57,7 +61,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void performLogin() {
-    validate();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  title: "Rastahouse - Semanas",
+                )),
+        (route) => false);
   }
 
   Function onForgotPasswordClick(BuildContext context) => () {
@@ -87,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: TextFormField(
                           key: Key("password"),
+                          obscureText: true,
                           controller: _passwordController,
                           decoration: InputDecoration(
                               errorText: _passwordError, labelText: "Senha"),

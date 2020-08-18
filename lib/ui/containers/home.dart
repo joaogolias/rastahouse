@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/taskWeek.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -19,66 +20,60 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  List<TaskWeek> taskWeeks = [
+    TaskWeek(DateTime.utc(2020, 08, 13), DateTime.utc(2020, 08, 29)),
+    TaskWeek(DateTime.utc(2020, 08, 16), DateTime.utc(2020, 08, 22)),
+    TaskWeek(DateTime.utc(2021, 08, 9), DateTime.utc(2020, 08, 15)),
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  List<Widget> generateTaskWeekUI(List<TaskWeek> tasks) {
+    return tasks.map((e) {
+      return Container(
+          width: MediaQuery.of(context).size.width * 0.75,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+                child: Text('${e.startTimeString} - ${e.endTimeString}')),
+          ));
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pusheeeed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: taskWeeks.length,
+        itemBuilder: (context, index) {
+          TaskWeek item = taskWeeks[index];
+          return Container(
+              margin: new EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              width: MediaQuery.of(context).size.width * 0.75,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                    child: Text(
+                        '${item.startTimeString} - ${item.endTimeString}')),
+              ));
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {},
+        tooltip: 'Criar semana com tarefas',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

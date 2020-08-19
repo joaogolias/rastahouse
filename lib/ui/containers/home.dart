@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/taskWeek.dart';
 import "./tasks.dart";
+import "./tasksCreation.dart";
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -45,6 +46,11 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
+  void onCreateWeekClick() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => TasksCreationPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: onCreateWeekClick,
         tooltip: 'Criar semana com tarefas',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
